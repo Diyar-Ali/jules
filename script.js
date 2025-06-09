@@ -13,8 +13,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const observerCallback = (entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target); // Optional: stop observing once animated
+                    // Remove initial animation classes and add final state classes
+                    entry.target.classList.remove('opacity-0', 'translate-y-5');
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    observer.unobserve(entry.target); // Stop observing once animated
                 }
             });
         };
@@ -24,49 +26,50 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // 2. Hero Stats Count-Up Animation (GSAP)
-    const heroStatsContainer = document.querySelector('.hero-stats');
+    const heroStatsContainer = document.querySelector('.hero-stats'); // Selector confirmed to be in HTML
     if (heroStatsContainer && typeof gsap !== 'undefined') {
-        const statNumbers = document.querySelectorAll('.stat-number');
+        const statNumbers = heroStatsContainer.querySelectorAll('.stat-number'); // Selector confirmed to be in HTML
 
         const animateStats = () => {
             statNumbers.forEach(statNumber => {
-                const targetValue = parseInt(statNumber.textContent.replace(/\D/g, ''), 10); // Extract number
+                // Use data-original-text if available, otherwise fallback to textContent
+                const originalText = statNumber.dataset.originalText || statNumber.textContent;
+                const targetValue = parseInt(originalText.replace(/\D/g, ''), 10);
+
                 gsap.fromTo(statNumber,
                     { textContent: 0 },
                     {
                         textContent: targetValue,
                         duration: 2,
                         ease: 'power1.out',
-                        snap: { textContent: 1 }, // Snap to whole numbers
-                        // Modifiers to add '+' if it was there or other formatting
+                        snap: { textContent: 1 },
                         onUpdate: function() {
-                            // Re-add '+' if original text had it and it's not zero
-                            if (statNumber.dataset.originalText && statNumber.dataset.originalText.includes('+')) {
-                                if (Math.round(this.targets()[0].textContent) > 0) {
-                                     this.targets()[0].textContent = Math.round(this.targets()[0].textContent) + '+';
-                                } else {
-                                     this.targets()[0].textContent = Math.round(this.targets()[0].textContent);
-                                }
-                            } else {
-                                this.targets()[0].textContent = Math.round(this.targets()[0].textContent);
+                            let currentVal = Math.round(this.targets()[0].textContent);
+                            this.targets()[0].textContent = currentVal; // Base number
+                            // Re-add '+' if original text had it and it's not zero (or handle other suffixes)
+                            if (originalText.includes('+') && currentVal > 0) {
+                                this.targets()[0].textContent += '+';
+                            } else if (originalText.includes('%') && currentVal > 0) {
+                                this.targets()[0].textContent += '%';
                             }
+                            // Add more conditions for other suffixes if needed
                         },
-                        onComplete: function() { // Ensure final text is exactly as original if complex
-                             if(statNumber.dataset.originalText) {
-                                 this.targets()[0].textContent = statNumber.dataset.originalText;
-                             }
+                        onComplete: function() {
+                            // Ensure final text is exactly as original
+                            this.targets()[0].textContent = originalText;
                         }
                     }
                 );
             });
         };
 
-        // Store original text for formatting
+        // Ensure original text is stored if not present in HTML (it is, from previous steps)
         statNumbers.forEach(stat => {
-            stat.dataset.originalText = stat.textContent;
+            if (!stat.dataset.originalText) {
+                 stat.dataset.originalText = stat.textContent;
+            }
         });
 
-        // Use Intersection Observer to trigger animation when .hero-stats is in view
         const statsObserverOptions = {
             root: null,
             threshold: 0.5 // Trigger when 50% of the element is visible
@@ -93,21 +96,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // 3. FAQ Toggle Functionality
-    const faqItems = document.querySelectorAll('.faq-item');
+    const allFaqItems = document.querySelectorAll('.faq-item'); // Retained class
 
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        if (question) {
+    allFaqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');     // Retained class
+        const answer = item.querySelector('.faq-answer');         // Retained class
+        const plusIcon = question.querySelector('.plus-icon');    // New class for SVG
+        const minusIcon = question.querySelector('.minus-icon');  // New class for SVG
+
+        if (question && answer && plusIcon && minusIcon) {
             question.addEventListener('click', () => {
-                // Optional: Close other open FAQs
-                // faqItems.forEach(otherItem => {
-                //     if (otherItem !== item && otherItem.classList.contains('active')) {
-                //         otherItem.classList.remove('active');
-                //     }
-                // });
-                item.classList.toggle('active');
+                const isActive = item.classList.toggle('active');
+
+                if (isActive) {
+                    answer.classList.remove('max-h-0', 'opacity-0', 'py-0');
+                    answer.classList.add('max-h-[500px]', 'opacity-100', 'py-5', 'sm:py-6'); // Tailwind classes for expanded state
+                    plusIcon.classList.add('hidden');
+                    minusIcon.classList.remove('hidden');
+                } else {
+                    answer.classList.add('max-h-0', 'opacity-0', 'py-0');
+                    answer.classList.remove('max-h-[500px]', 'opacity-100', 'py-5', 'sm:py-6'); // Tailwind classes for collapsed state
+                    plusIcon.classList.remove('hidden');
+                    minusIcon.classList.add('hidden');
+                }
             });
         }
     });
-
 });
