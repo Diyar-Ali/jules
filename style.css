@@ -1,0 +1,1104 @@
+/* Styles for Voluyt website */
+
+:root {
+    --color-background-light: #FFFFFF;
+    --color-background-dark: #F4F7FA; /* for full-width sections */
+    --color-text-primary: #333333;
+    --color-text-secondary: #555555;
+    --color-accent-primary: #4FD1C5; /* New brand color */
+    --color-accent-secondary: #E27B2B; /* New brand color */
+    --color-accent-primary-darker: #3EAE9E; /* A darker shade of the new primary for hovers etc. */
+    --font-primary: 'Open Sans', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+    --container-width: 1140px;
+    --section-padding: 60px 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-primary);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    background-color: var(--color-background-light);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    padding: var(--section-padding);
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content-wrapper {
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px; /* Padding for content within full-width bg */
+}
+
+.section--full-width-bg {
+    max-width: none; /* Override max-width for the section itself */
+    padding-top: 60px;
+    padding-bottom: 60px;
+    background-color: var(--color-background-dark);
+}
+
+.section--full-width-bg .content-wrapper { /* Content within this section still respects container width */
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.section-title {
+    font-family: var(--font-secondary);
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--color-text-primary);
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--color-accent-primary);
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: var(--color-accent-primary-darker); /* Updated to new darker accent */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-secondary);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 1rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: var(--color-text-secondary);
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-accent-primary);
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* --- Navigation --- */
+.main-nav {
+    background-color: #333; /* Dark background for contrast with white logo/text */
+    padding: 10px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+}
+
+.nav-content { /* This class needs to be added to the nav's inner container in HTML */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.nav-logo img {
+    height: 40px; /* Adjust as needed based on actual logo dimensions */
+    width: auto;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links li { /* This should be applied to <a> if they are direct children, or wrap <a> in <li> */
+    margin-left: 25px;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--color-accent-primary);
+}
+
+.linkedin-button {
+    /* margin-left: 30px; Revisit this based on new structure */
+    display: inline-flex; /* To align SVG properly */
+    align-items: center;
+    padding: 8px; /* Add some padding to make it a better click target */
+    border-radius: 4px; /* Slightly rounded corners */
+    transition: background-color 0.3s ease;
+    color: #fff; /* Ensure text is white */
+    font-weight: 600; /* Match link font-weight */
+    font-family: var(--font-primary); /* Match link font-family */
+}
+
+.linkedin-button svg {
+    fill: #fff;
+    width: 20px; /* Adjusted size to better fit with text */
+    height: 20px;
+    margin-right: 8px; /* Space between icon and text */
+    display: block;
+}
+
+.linkedin-button:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle hover for the button area */
+    color: var(--color-accent-primary); /* Change text color on hover */
+}
+
+.linkedin-button:hover svg {
+    fill: var(--color-accent-primary); /* Change SVG color on hover */
+}
+
+/* Basic responsive for nav, will be expanded in media queries step */
+.menu-toggle { /* For potential future mobile menu */
+    display: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* --- Hero Section --- */
+.hero-section-new { /* Renamed from .hero-section to .hero-section-new to match HTML */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    align-items: center;
+    min-height: 80vh; /* Adjust as needed */
+    padding: 0; /* Remove default section padding if it's full bleed */
+    max-width: none; /* Override section max-width for full bleed */
+    background-color: var(--color-background-light); /* Or a specific hero background color */
+}
+
+.hero-content-left { /* Renamed from .hero-left to match HTML */
+    padding: 40px 50px 40px 10%; /* More padding on the left */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-section-new h1 { /* Target h1 within hero-section-new, assuming it's the main headline */
+    font-size: 3.5rem; /* Larger for main headline */
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.sub-headline {
+    font-size: 1.15rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 30px;
+    max-width: 500px; /* Constrain width of sub-headline */
+}
+
+.hero-section-new .cta-button { /* Specificity for hero CTA if needed */
+    padding: 15px 30px; /* Larger CTA */
+    font-size: 1.1rem;
+    align-self: flex-start; /* Align button to the start of the flex container */
+}
+
+.hero-stats {
+    margin-top: 40px;
+    display: flex;
+    gap: 30px; /* Spacing between stat items */
+}
+
+.hero-stats > div { /* Targeting the div containers for each stat, changed from .stat-item */
+    text-align: left;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    color: var(--color-accent-primary);
+    display: block; /* Ensure it takes its own line or use flex column on stat-item */
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.hero-image-right { /* Renamed from .hero-right to match HTML */
+    /* background-image is set inline in HTML, but good to have here if that changes */
+    /* background-image: url('assets/meeting.jpeg'); */
+    background-size: cover;
+    background-position: center;
+    height: 100%; /* Make it take full height of the hero section grid cell */
+    min-height: 500px; /* Minimum height to ensure image visibility and reduce LCP issues */
+    align-self: stretch; /* Make sure it stretches to the full height of the grid row */
+}
+
+/* --- Social Proof Section --- */
+.social-proof-section {
+    /* Uses .section--full-width-bg for background and padding */
+    /* Content is centered by .content-wrapper which should be inside this section in HTML */
+}
+
+/* The h2 title "Vertrouwd door toonaangevende merken" in index.html already has class="section-title"
+   which is styled globally. So, no specific rule for .social-proof-section .section-title needed
+   unless overrides are desired. */
+
+.social-proof-section .logos { /* Targeting the .logos div from index.html */
+    display: flex;
+    flex-wrap: wrap; /* Allow logos to wrap on smaller screens */
+    justify-content: center; /* Center logos horizontally */
+    align-items: center;
+    gap: 40px; /* Space between logos */
+    padding: 20px 0; /* Padding around the grid of logos */
+}
+
+.social-proof-section .logos img { /* Targeting img tags within .logos */
+    max-height: 60px; /* Adjust based on average logo height */
+    width: auto; /* Maintain aspect ratio */
+    filter: grayscale(100%); /* Optional: make logos grayscale */
+    opacity: 0.8; /* Optional: slightly transparent */
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.social-proof-section .logos img:hover {
+    filter: grayscale(0%); /* Optional: color on hover */
+    opacity: 1; /* Optional: full opacity on hover */
+}
+
+/* --- Problem Section --- */
+.problem-section {
+    /* Uses standard section padding and max-width */
+    text-align: left; /* Content should be left-aligned or as per design */
+}
+
+.problem-section .section-title { /* Title is already class="section-title" in HTML */
+    text-align: center; /* Default for .section-title, but can be explicit */
+    margin-bottom: 30px;
+}
+
+.problem-section .intro-paragraph { /* Class added in HTML */
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 800px; /* Constrain width of intro */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 40px;
+}
+
+.problem-symptoms-list { /* Class added in HTML */
+    list-style: none; /* Remove default bullets */
+    padding-left: 0; /* Remove default padding */
+    max-width: 700px; /* Constrain width of the list */
+    margin: 0 auto 30px auto; /* Center the list */
+}
+
+.problem-symptoms-list li {
+    background-color: var(--color-background-dark); /* Light background for each item */
+    padding: 15px 20px 15px 45px; /* Padding, with more on left for custom bullet */
+    margin-bottom: 10px; /* Space between items */
+    border-radius: 5px;
+    position: relative; /* For custom bullet positioning */
+    font-size: 1rem;
+    color: var(--color-text-primary);
+}
+
+.problem-symptoms-list li::before {
+    content: '\2713'; /* Unicode checkmark character or other custom icon */
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-accent-primary); /* Accent color for the bullet */
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.problem-section .concluding-paragraph { /* Class added in HTML */
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Client Case Section --- */
+.klantcase-section {
+    /* Uses .section--full-width-bg for background and padding,
+       content is within .content-wrapper */
+}
+
+.klantcase-section .content-wrapper {
+    /* The content-wrapper will be the grid container */
+    display: grid;
+    grid-template-columns: 1fr 1.2fr; /* Left column (visual) slightly smaller than right (details) */
+    gap: 50px;
+    align-items: center; /* Vertically align items in the grid cells */
+}
+
+.klantcase-visual {
+    text-align: left; /* Or center if design prefers */
+}
+
+.klantcase-visual .visual-title { /* Title: "Operational Excellence in een Internationale Context" */
+    font-family: var(--font-secondary);
+    font-size: 1.8rem; /* Adjust as needed */
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+}
+
+.klantcase-visual img { /* Image: van_mossel.webp */
+    width: 100%;
+    max-width: 450px; /* Max width for the image */
+    height: auto;
+    border-radius: 8px; /* Optional: rounded corners for the image */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+}
+
+.klantcase-details {
+    text-align: left;
+}
+
+.klantcase-eyebrow { /* "Klantcase: Van Mossel Autoschade" */
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.klantcase-details .details-title { /* Main title for the details section if any, or use eyebrow as main identifier */
+    font-family: var(--font-secondary);
+    font-size: 2rem; /* If there's a main title here */
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 25px;
+}
+
+.klantcase-item {
+    margin-bottom: 25px;
+    padding-left: 20px;
+    border-left: 3px solid var(--color-accent-primary); /* Left border for each item */
+}
+
+.klantcase-item h4 { /* Changed from h3 to h4 to match HTML */
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    color: var(--color-text-primary);
+    margin-bottom: 8px;
+}
+
+.klantcase-item p {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0; /* Remove default p margin if spacing is handled by .klantcase-item */
+}
+
+/* --- Testimonial Section --- */
+.testimonial-section {
+    /* Uses standard section padding and max-width */
+    background-color: var(--color-background-light); /* Or a slightly different shade if desired */
+    text-align: center; /* Center the content */
+}
+
+.testimonial-section blockquote {
+    font-size: 1.5rem; /* Larger font for the quote */
+    font-style: italic;
+    font-family: var(--font-secondary); /* Or a specific quote font */
+    color: var(--color-text-primary);
+    max-width: 800px; /* Constrain width of the blockquote */
+    margin: 0 auto 20px auto; /* Center blockquote and add bottom margin */
+    position: relative;
+    padding: 20px 0;
+}
+
+.testimonial-section blockquote::before,
+.testimonial-section blockquote::after {
+    content: '"';
+    font-size: 4rem;
+    color: var(--color-accent-primary);
+    opacity: 0.5;
+    position: absolute;
+    line-height: 1;
+}
+
+.testimonial-section blockquote::before {
+    top: -10px;
+    left: -20px; /* Adjust for desired quote mark position */
+}
+
+.testimonial-section blockquote::after {
+    bottom: -10px; /* Adjust based on line height and font size */
+    right: -20px; /* Adjust for desired quote mark position */
+}
+
+.testimonial-section cite {
+    display: block; /* Make cite a block element to take up its own line */
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    font-style: normal; /* Override italic from blockquote if not desired for cite */
+}
+
+.testimonial-section cite::before {
+    content: '— '; /* Em dash before the citation */
+}
+
+/* --- Solution Section --- */
+.solution-section {
+    /* Uses .section--full-width-bg for background and padding,
+       content is within .content-wrapper */
+}
+
+.solution-section .content-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 50px;
+    align-items: center;
+}
+
+.solution-visual { /* Container for the image */
+    text-align: center; /* Or left/right as per design */
+}
+
+.solution-visual img {
+    width: 100%;
+    max-width: 500px; /* Max width for the image */
+    height: auto;
+    border-radius: 8px; /* Optional: rounded corners */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Optional: subtle shadow */
+}
+
+.solution-text {
+    text-align: left;
+}
+
+.solution-text .section-title { /* "Uw Strategische Partner" */
+    text-align: left; /* Title aligned left within its column */
+    font-size: 2.2rem; /* Adjust as needed */
+    margin-bottom: 20px;
+}
+
+.solution-text .intro-bold-paragraph { /* Class for the bold intro paragraph */
+    font-size: 1.15rem;
+    font-weight: 600; /* Bold */
+    color: var(--color-text-primary);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.solution-text p { /* For the subsequent descriptive paragraphs */
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 15px;
+    line-height: 1.7;
+}
+
+/* Ensure no double margin if a p tag is also the intro-bold-paragraph */
+.solution-text .intro-bold-paragraph + p {
+    /* Adjust spacing if needed, or ensure intro-bold-paragraph itself is a p tag */
+}
+
+/* --- Benefits Section --- */
+.benefit-section {
+    /* Uses standard section padding and max-width */
+    background-color: var(--color-background-light); /* Or var(--color-background-dark) if alternating */
+}
+
+.benefit-section .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    gap: 40px;
+}
+
+.benefit-item {
+    text-align: center;
+    background-color: #fff; /* Card background */
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    opacity: 0; /* For animation */
+    transform: translateY(20px); /* For animation */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.benefit-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.benefit-icon { /* Placeholder for SVG icon */
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 20px auto;
+    background-color: var(--color-accent-primary); /* Placeholder background */
+    border-radius: 50%; /* Circle shape for icon background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* For text-based icon or if SVG is mask */
+    font-size: 1.8rem; /* Example if using a font icon */
+}
+
+/* If using actual SVGs, you might style them like this:
+.benefit-icon svg {
+    width: 32px;
+    height: 32px;
+    fill: #fff;
+}
+*/
+
+.benefit-title {
+    font-family: var(--font-secondary);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+}
+
+.benefit-item p { /* Description */
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* --- Path Forward Section --- */
+.path-forward-section {
+    /* Uses .section--full-width-bg for background and padding */
+}
+
+.path-forward-section .section-title { /* This is within .content-wrapper in HTML */
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.steps-grid { /* This is within .content-wrapper in HTML */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three equal columns */
+    gap: 40px;
+}
+
+.step-item {
+    background-color: #fff; /* Card background, or transparent if on dark bg */
+    padding: 30px 25px 30px 40px; /* More padding on left for number */
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Lighter shadow if on dark bg, or darker if on light */
+    position: relative; /* For absolute positioning of step number */
+    overflow: hidden; /* To ensure number doesn't overlap badly if too large */
+}
+
+.step-number {
+    position: absolute;
+    left: -10px; /* Adjust to position partly outside */
+    top: -10px;  /* Adjust to position partly outside */
+    font-size: 4rem; /* Large step number */
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    color: var(--color-accent-primary);
+    opacity: 0.15; /* Make it subtle, like a watermark */
+    line-height: 1;
+    z-index: 0; /* Behind content */
+    user-select: none; /* Non-selectable */
+}
+
+.step-item-content { /* Wrapper for text content if needed, to ensure it's above the number */
+    position: relative;
+    z-index: 1;
+}
+
+.step-title { /* This is h3 in the HTML */
+    font-family: var(--font-secondary);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 10px;
+}
+
+.step-item p { /* Description */
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* --- FAQ Section --- */
+.faq-section {
+    /* Uses standard section padding and max-width */
+    background-color: var(--color-background-light);
+}
+
+.faq-section .section-title {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.faq-items {
+    max-width: 800px; /* Constrain width of FAQ list */
+    margin: 0 auto;
+}
+
+.faq-item {
+    background-color: #fff;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    overflow: hidden; /* To make sure border-radius is respected by children */
+}
+
+.faq-question {
+    padding: 20px 25px;
+    font-family: var(--font-primary); /* Changed from secondary to primary for less boldness */
+    font-size: 1.1rem;
+    font-weight: 600; /* Still bold, but Open Sans might appear less heavy than Montserrat */
+    color: var(--color-text-primary);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-background-dark); /* Subtle separator */
+    transition: background-color 0.2s ease;
+}
+
+.faq-item.active .faq-question {
+    background-color: var(--color-background-dark); /* Slight highlight for active question */
+    border-bottom-color: transparent; /* Hide border when open */
+}
+
+.faq-question::after {
+    content: '+'; /* Toggle icon: plus */
+    font-size: 1.5rem;
+    font-weight: 700; /* Bolder plus/minus */
+    color: var(--color-accent-primary);
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question::after {
+    content: '\2013'; /* Toggle icon: minus (ndash) */
+    transform: rotate(180deg); /* Optional: if using an arrow or chevron */
+}
+
+.faq-answer {
+    padding: 0px 25px; /* Initial padding, vertical padding will be animated */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+}
+
+.faq-item.active .faq-answer {
+    padding: 25px 25px; /* Padding when open */
+    max-height: 500px; /* Adjust as needed, should be more than max possible answer height */
+    border-top: 1px solid var(--color-background-dark); /* Separator for answer */
+}
+
+.faq-answer p:last-child {
+    margin-bottom: 0; /* Remove bottom margin from last p in answer for cleaner look */
+}
+
+/* --- Footer/Contact Section --- */
+.contact-section {
+    background-color: var(--color-text-primary); /* Dark background for footer */
+    color: #fff; /* Light text color */
+    padding-top: 60px;
+    padding-bottom: 30px;
+    max-width: none; /* Full width */
+}
+
+.contact-section .content-wrapper { /* To keep content within max-width */
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.contact-section .section-title {
+    text-align: center;
+    color: #fff; /* White title on dark background */
+    margin-bottom: 50px;
+}
+
+.contact-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Left column (contact) smaller than right (career) */
+    gap: 50px;
+    margin-bottom: 50px;
+}
+
+.contact-details-container h3,
+.career-contact-container h3 {
+    font-family: var(--font-secondary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--color-accent-primary); /* Accent color underline */
+    padding-bottom: 10px;
+    display: inline-block; /* To make border only as wide as text */
+}
+
+.contact-details-container address,
+.contact-details-container .email-link {
+    font-style: normal;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #eee; /* Slightly off-white for readability */
+}
+
+.contact-details-container .email-link a {
+    color: var(--color-accent-primary); /* Accent color for email link */
+    text-decoration: none;
+    word-break: break-all; /* Prevent long emails from breaking layout */
+}
+
+.contact-details-container .email-link a:hover {
+    text-decoration: underline;
+}
+
+.career-contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two cards side-by-side */
+    gap: 30px;
+}
+
+.contact-card {
+    background-color: rgba(255,255,255, 0.05); /* Very subtle background for cards */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.contact-card:hover {
+    background-color: rgba(255,255,255, 0.1);
+}
+
+.contact-card-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%; /* Circular images */
+    object-fit: cover; /* Ensure image covers the area */
+    margin: 0 auto 15px auto;
+    border: 3px solid var(--color-accent-primary); /* Accent border */
+}
+
+.contact-card-info h4 { /* Name */
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.contact-card-info p { /* Email */
+    font-size: 0.9rem;
+    color: #ccc;
+    margin-bottom: 0;
+    word-break: break-all;
+}
+
+.contact-card-info p a {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+}
+.contact-card-info p a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom-text {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #bbb;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.1); /* Subtle separator */
+}
+
+/* --- Media Queries --- */
+
+/* Medium devices (tablets, less than 992px) */
+@media (max-width: 991.98px) {
+    .nav-content {
+        padding: 0 20px; /* Adjust padding for nav */
+    }
+
+    .nav-links {
+        /* Basic mobile menu: hide links, show toggle. JS would be needed for toggle functionality.
+           For this task, we'll just hide them as per prompt, assuming no JS for menu toggle yet. */
+        display: none;
+        /* If a JS mobile menu was implemented:
+        position: absolute;
+        top: 60px; /* Height of nav bar */
+        left: 0;
+        right: 0;
+        background-color: #333;
+        flex-direction: column;
+        width: 100%;
+        padding: 10px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        */
+    }
+    .menu-toggle { /* Should be added to HTML if a JS menu is intended */
+        /* display: block; */ /* Show hamburger icon - hide for now */
+    }
+    .linkedin-button {
+        margin-left: auto; /* Push to the right if nav-links are hidden */
+    }
+
+
+    .hero-section-new {
+        grid-template-columns: 1fr; /* Stack columns */
+        min-height: auto;
+        text-align: center;
+    }
+    .hero-content-left { /* Updated from .hero-left to match HTML */
+        padding: 40px 30px;
+        order: 2; /* Content below image */
+        align-items: center; /* Center content in stacked view */
+    }
+    .hero-section-new .cta-button {
+        align-self: center; /* Center CTA button */
+    }
+    .hero-stats {
+        justify-content: center; /* Center stats */
+        gap: 20px;
+        flex-wrap: wrap; /* Allow stats to wrap if needed */
+    }
+    .hero-image-right { /* Updated from .hero-right to match HTML */
+        order: 1; /* Image above content */
+        min-height: 350px; /* Adjust hero image height for tablets */
+    }
+
+    .klantcase-section .content-wrapper,
+    .solution-section .content-wrapper {
+        grid-template-columns: 1fr; /* Stack columns */
+        gap: 30px;
+    }
+    .klantcase-visual, .solution-visual {
+        text-align: center; /* Center images */
+        margin-bottom: 20px; /* Space below image when stacked */
+    }
+    .klantcase-visual .visual-title,
+    .solution-text .section-title {
+        text-align: center; /* Center titles when stacked */
+    }
+    .solution-text {
+        text-align: center; /* Center solution text when stacked */
+    }
+     .solution-text .intro-bold-paragraph {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .benefits-grid,
+    .steps-grid {
+        grid-template-columns: 1fr 1fr; /* Two columns for tablets */
+        gap: 30px;
+    }
+
+    .contact-content-grid {
+        grid-template-columns: 1fr; /* Stack columns */
+        gap: 40px;
+    }
+    .contact-details-container h3,
+    .career-contact-container h3 {
+        display: block; /* Full width for titles */
+        text-align: center;
+        border-bottom-width: 0; /* Remove border or adjust */
+    }
+    .career-contact-wrapper {
+        grid-template-columns: 1fr; /* Stack contact cards */
+    }
+}
+
+/* Small devices (landscape phones, less than 768px) */
+@media (max-width: 767.98px) {
+    body {
+        font-size: 15px; /* Slightly smaller base font for mobile */
+    }
+    section,
+    .section--full-width-bg {
+        padding: 40px 0; /* Reduce section padding */
+    }
+     .section--full-width-bg .content-wrapper,
+     section .content-wrapper { /* Ensure content-wrapper also has mobile padding */
+        padding: 0 20px;
+    }
+    .section-title {
+        font-size: 1.8rem; /* Reduce section title size */
+        margin-bottom: 30px;
+    }
+
+    .hero-section-new h1 { /* Updated from .main-headline to match HTML */
+        font-size: 2.5rem; /* Reduce hero headline size */
+    }
+    .sub-headline {
+        font-size: 1rem;
+    }
+    .hero-content-left { /* Updated from .hero-left to match HTML */
+        padding: 30px 20px;
+    }
+    .hero-image-right { /* Updated from .hero-right to match HTML */
+        min-height: 300px; /* Further reduce hero image height */
+    }
+    .hero-stats {
+        flex-direction: column; /* Stack stats vertically */
+        align-items: center;
+        gap: 15px;
+    }
+    .hero-stats > div { /* Updated from .stat-item to match HTML */
+        text-align: center;
+    }
+
+
+    .social-proof-section .logos { /* Updated from .social-proof-grid */
+        gap: 20px;
+    }
+    .social-proof-section .logos img { /* Updated from .social-proof-grid img */
+        max-height: 40px; /* Smaller logos on mobile */
+    }
+
+    .problem-symptoms-list li {
+        padding: 12px 15px 12px 40px;
+        font-size: 0.9rem;
+    }
+
+    .klantcase-visual .visual-title {
+        font-size: 1.5rem;
+    }
+    .klantcase-item h3, .klantcase-item h4 { /* Target both h3/h4 for client case items */
+        font-size: 1.15rem;
+    }
+
+    .testimonial-section blockquote {
+        font-size: 1.2rem;
+    }
+    .testimonial-section blockquote::before,
+    .testimonial-section blockquote::after {
+        font-size: 3rem; /* Smaller quote marks */
+    }
+     .testimonial-section blockquote::before { left: -10px; }
+     .testimonial-section blockquote::after { right: -10px; }
+
+
+    .solution-text .section-title {
+        font-size: 1.8rem;
+    }
+     .solution-text .intro-bold-paragraph {
+        font-size: 1.05rem;
+    }
+
+
+    .benefits-grid,
+    .steps-grid {
+        grid-template-columns: 1fr; /* Single column for mobile */
+        gap: 25px;
+    }
+    .benefit-item, .step-item {
+        padding: 20px;
+    }
+    .benefit-title, .step-title {
+        font-size: 1.1rem;
+    }
+    .step-number {
+        font-size: 3rem; /* Smaller step number */
+        left: 5px;
+        top: 5px;
+    }
+
+    .faq-question {
+        padding: 15px 20px;
+        font-size: 1rem;
+    }
+    .faq-question::after {
+        font-size: 1.3rem;
+    }
+    .faq-item.active .faq-answer, .faq-answer {
+        padding: 15px 20px;
+        font-size: 0.9rem;
+    }
+
+    .contact-section .section-title {
+        font-size: 1.8rem;
+    }
+    .contact-details-container h3,
+    .career-contact-container h3 {
+        font-size: 1.3rem;
+    }
+    .contact-card {
+        padding: 15px;
+    }
+    .contact-card-img {
+        width: 80px;
+        height: 80px;
+    }
+    .contact-card-info h4 {
+        font-size: 1rem;
+    }
+     .footer-bottom-text {
+        font-size: 0.8rem;
+        padding: 20px 10px; /* Adjust padding */
+    }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .hero-section-new h1 { /* Updated from .main-headline to match HTML */
+        font-size: 2rem;
+    }
+    .hero-image-right { /* Updated from .hero-right to match HTML */
+        min-height: 250px;
+    }
+    .social-proof-section .logos img { /* Updated from .social-proof-grid img */
+        max-height: 30px; /* Even smaller logos */
+        flex-basis: calc(33.333% - 20px); /* Example: 3 logos per row */
+    }
+    .problem-section .intro-paragraph {
+        font-size: 1rem;
+    }
+}
