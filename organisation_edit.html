@@ -1,0 +1,113 @@
+<!-- header.html content prepended -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Organisation: Innovatech Solutions - CRM</title> <!-- Page specific title -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 56px; background-color: #f8f9fa; }
+        .navbar { }
+        .container { background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-top: 20px; }
+        .table-sm th, .table-sm td { padding: 0.4rem; }
+        .btn-xs { padding: 0.1rem 0.4rem; font-size: 0.75rem; line-height: 1.5; border-radius: 0.2rem; }
+        .alert { margin-top: 15px; }
+        .btn.disabled, .btn:disabled { cursor: not-allowed; opacity: 0.65; }
+        .bg-purple { background-color: #6f42c1; color: white; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="dashboard.html">CRM</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link active" href="organisations.html">Organisations</a></li> <!-- Active -->
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
+        <li class="nav-item"><a class="nav-link" href="leads.html">Leads</a></li>
+        <li class="nav-item"><a class="nav-link" href="deals.html">Deals</a></li>
+        <li class="nav-item"><a class="nav-link" href="activities.html">Activities</a></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin"><li><a class="dropdown-item" href="admin_users.html">User Management</a></li></ul>
+        </li>
+      </ul>
+      <span class="navbar-text me-3">Logged in as: admin_user (Admin)</span>
+      <a href="login.html" class="btn btn-outline-light">Logout</a>
+    </div>
+  </div>
+</nav>
+<main role="main" class="container-fluid mt-3">
+    <!-- organisation_edit.php content starts -->
+    <div class="container mt-4">
+        <h1>Edit Organisation: Innovatech Solutions</h1>
+
+        <!-- Example Error Alert -->
+        <!-- <div class="alert alert-danger">Data conflict. The organisation data has been modified by someone else. Please refresh and try again.</div> -->
+
+        <form action="organisation_edit.php?id=1" method="POST">
+            <input type="hidden" name="csrf_token" value="mock_csrf_token_org_edit_1">
+            <input type="hidden" name="id" value="1">
+            <input type="hidden" name="version" value="1">
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Organisation Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="name" name="name" value="Innovatech Solutions" required>
+            </div>
+            <div class="mb-3">
+                <label for="website" class="form-label">Website</label>
+                <input type="url" class="form-control" id="website" name="website" value="https://innovatech.example.com" placeholder="https://example.com">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" class="form-control" id="phone" name="phone" value="555-0101">
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="address_street" class="form-label">Street Address</label>
+                    <input type="text" class="form-control" id="address_street" name="address_street" value="123 Tech Park">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="address_city" class="form-label">City</label>
+                    <input type="text" class="form-control" id="address_city" name="address_city" value="Metropolis">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="address_state" class="form-label">State/Province</label>
+                    <input type="text" class="form-control" id="address_state" name="address_state" value="CA">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="address_zip" class="form-label">ZIP/Postal Code</label>
+                    <input type="text" class="form-control" id="address_zip" name="address_zip" value="90210">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="address_country" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="address_country" name="address_country" value="USA">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="industry" class="form-label">Industry</label>
+                <input type="text" class="form-control" id="industry" name="industry" value="Technology">
+            </div>
+            <div class="mb-3">
+                <label for="annual_revenue" class="form-label">Annual Revenue</label>
+                <input type="number" step="0.01" class="form-control" id="annual_revenue" name="annual_revenue" value="5000000.00">
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="3">Leading provider of innovative tech solutions.</textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Organisation</button>
+            <a href="organisations.html" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+    <!-- organisation_edit.php content ends -->
+<!-- footer.html content appended -->
+</main>
+<footer class="container-fluid text-center mt-4 mb-3"><hr><p>&copy; 2024 Basic Consulting CRM. All rights reserved (not really).</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>

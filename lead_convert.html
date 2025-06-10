@@ -1,0 +1,95 @@
+<!-- header.html content prepended (Leads link active) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Lead to Deal - CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding-top: 56px; background-color: #f8f9fa; }
+        .navbar { }
+        .container { background-color: #ffffff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-top: 20px; }
+        .table-sm th, .table-sm td { padding: 0.4rem; }
+        .btn-xs { padding: 0.1rem 0.4rem; font-size: 0.75rem; line-height: 1.5; border-radius: 0.2rem; }
+        .alert { margin-top: 15px; }
+        .btn.disabled, .btn:disabled { cursor: not-allowed; opacity: 0.65; }
+        .bg-purple { background-color: #6f42c1; color: white; }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="dashboard.html">CRM</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="organisations.html">Organisations</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
+        <li class="nav-item"><a class="nav-link active" href="leads.html">Leads</a></li> <!-- Active -->
+        <li class="nav-item"><a class="nav-link" href="deals.html">Deals</a></li>
+        <li class="nav-item"><a class="nav-link" href="activities.html">Activities</a></li>
+        <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" id="navbarDropdownAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">Admin</a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownAdmin"><li><a class="dropdown-item" href="admin_users.html">User Management</a></li></ul>
+        </li>
+      </ul>
+      <span class="navbar-text me-3">Logged in as: admin_user (Admin)</span>
+      <a href="login.html" class="btn btn-outline-light">Logout</a>
+    </div>
+  </div>
+</nav>
+<main role="main" class="container-fluid mt-3">
+    <!-- lead_convert.php content starts -->
+    <div class="container mt-4">
+        <h1>Convert Lead to Deal: New Inquiry - Innovatech Website</h1>
+
+        <!-- <div class="alert alert-danger">Lead conversion failed: Organisation is required for a Deal. Please associate an Organisation with this Lead first.</div> -->
+        <!-- <div class="alert alert-success">Lead successfully converted to Deal ID: 2</div> -->
+
+        <div class="card">
+            <div class="card-header">Confirm Lead Conversion</div>
+            <div class="card-body">
+                <p>You are about to convert the following lead into a new deal:</p>
+                <ul>
+                    <li><strong>Lead Name:</strong> New Inquiry - Innovatech Website</li>
+                    <li><strong>Lead Value:</strong> 25,000.00 (This will be the initial deal amount)</li>
+                    <li><strong>Contact:</strong> N/A</li>
+                    <li><strong>Organisation:</strong> Innovatech Solutions
+                        <!-- Example if no org: <span class="text-danger">(No Organisation linked. An Organisation is required for deal conversion...)</span> -->
+                    </li>
+                    <li><strong>Description:</strong> Inquiry about cloud services from website.</li>
+                </ul>
+                <hr>
+                <form action="lead_convert.php?id=1" method="POST">
+                    <input type="hidden" name="csrf_token" value="mock_csrf_lead_convert_1">
+                    <div class="mb-3">
+                        <label for="deal_name" class="form-label">New Deal Name:</label>
+                        <input type="text" class="form-control" id="deal_name" name="deal_name" value="New Inquiry - Innovatech Website - Deal" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="deal_stage" class="form-label">Initial Deal Stage:</label>
+                        <select class="form-select" id="deal_stage" name="deal_stage">
+                            <option value="Prospecting">Prospecting</option>
+                            <option value="Qualification" selected>Qualification</option>
+                            <option value="Proposal">Proposal</option>
+                            <option value="Negotiation">Negotiation</option>
+                            <option value="Won">Won</option>
+                            <option value="Lost">Lost</option>
+                        </select>
+                    </div>
+
+                    <p class="text-muted">The lead's status will be set to 'Converted'.</p>
+
+                    <button type="submit" name="confirm_conversion" class="btn btn-success">Confirm Conversion</button>
+                    <a href="lead_view.html?id=1" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- lead_convert.php content ends -->
+<!-- footer.html content appended -->
+</main>
+<footer class="container-fluid text-center mt-4 mb-3"><hr><p>&copy; 2024 Basic Consulting CRM. All rights reserved (not really).</p></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body></html>

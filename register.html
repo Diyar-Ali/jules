@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Basic CRM</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container { background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: 40px auto; }
+        h2 { text-align: center; color: #333; }
+        label { display: block; margin-bottom: 5px; color: #555; }
+        input[type="text"], input[type="email"], input[type="password"] { width: calc(100% - 22px); padding: 10px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 3px; }
+        button { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 3px; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background-color: #218838; }
+        .message { padding: 10px; margin-bottom: 15px; border-radius: 3px; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .note { font-size: 0.9em; text-align: center; margin-top: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register New User (Admin Placeholder)</h2>
+
+        <!-- Example Error Message -->
+        <!-- <p class="message error">Passwords do not match.</p> -->
+
+        <!-- Example Success Message -->
+        <!-- <p class="message success">User created successfully. You can now login.</p> -->
+
+        <form action="register.php" method="POST">
+            <!-- Placeholder for CSRF token input -->
+            <input type="hidden" name="csrf_token" value="mock_csrf_token_value_67890">
+
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required value="">
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required value="">
+            </div>
+            <div>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required value="">
+            </div>
+            <div>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required value="">
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div>
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        <p class="note"><a href="login.html">Back to Login</a></p>
+    </div>
+</body>
+</html>
