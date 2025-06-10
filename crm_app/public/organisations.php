@@ -58,10 +58,10 @@ include_once $base_path . 'templates/header.php';
     <h1>Organisations</h1>
 
     <?php if ($message): ?>
-        <div class="alert alert-success"><?php echo htmlspecialchars($message); ?></div>
+        <div class="alert alert-success"><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></div>
     <?php endif; ?>
     <?php if ($error_message): ?>
-        <div class="alert alert-danger"><?php echo htmlspecialchars($error_message); ?></div>
+        <div class="alert alert-danger"><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></div>
     <?php endif; ?>
 
     <p><a href="organisation_edit.php" class="btn btn-primary">Add New Organisation</a></p>
@@ -92,10 +92,10 @@ include_once $base_path . 'templates/header.php';
             <tbody>
                 <?php foreach ($organisations as $org): ?>
                     <tr>
-                        <td><a href="organisation_view.php?id=<?php echo $org['id']; ?>"><?php echo htmlspecialchars($org['name']); ?></a></td>
-                        <td><?php echo $org['website'] ? '<a href="'.htmlspecialchars($org['website']).'" target="_blank">'.htmlspecialchars($org['website']).'</a>' : 'N/A'; ?></td>
-                        <td><?php echo htmlspecialchars($org['phone'] ?? 'N/A'); ?></td>
-                        <td><?php echo htmlspecialchars($org['address_city'] ?? 'N/A'); ?></td>
+                        <td><a href="organisation_view.php?id=<?php echo htmlspecialchars((string)$org['id'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($org['name'], ENT_QUOTES, 'UTF-8'); ?></a></td>
+                        <td><?php echo $org['website'] ? '<a href="'.htmlspecialchars($org['website'], ENT_QUOTES, 'UTF-8').'" target="_blank">'.htmlspecialchars($org['website'], ENT_QUOTES, 'UTF-8').'</a>' : 'N/A'; ?></td>
+                        <td><?php echo htmlspecialchars($org['phone'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
+                        <td><?php echo htmlspecialchars($org['address_city'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>
                             <?php if ($org['is_active']): ?>
                                 <span class="badge bg-success">Active</span>
@@ -103,15 +103,15 @@ include_once $base_path . 'templates/header.php';
                                 <span class="badge bg-danger">Inactive</span>
                             <?php endif; ?>
                         </td>
-                        <td><?php echo htmlspecialchars($org['created_by_username'] ?? 'N/A'); ?></td>
+                        <td><?php echo htmlspecialchars($org['created_by_username'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>
-                            <a href="organisation_view.php?id=<?php echo $org['id']; ?>" class="btn btn-info btn-sm">View</a>
-                            <a href="organisation_edit.php?id=<?php echo $org['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="organisation_view.php?id=<?php echo htmlspecialchars((string)$org['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-info btn-sm">View</a>
+                            <a href="organisation_edit.php?id=<?php echo htmlspecialchars((string)$org['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-warning btn-sm">Edit</a>
                             <?php if ($is_admin): // Admin-only actions ?>
                                 <form action="organisations.php" method="POST" style="display: inline;">
                                     <?php echo csrf_input_field(); ?>
-                                    <input type="hidden" name="organisation_id" value="<?php echo $org['id']; ?>">
-                                    <input type="hidden" name="version" value="<?php echo $org['version'] ?? $organisation_handler->readOne($org['id'], true)['data']['version']; // Fetch version if not in list view result ?>">
+                                    <input type="hidden" name="organisation_id" value="<?php echo htmlspecialchars((string)$org['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                                    <input type="hidden" name="version" value="<?php echo htmlspecialchars((string)($org['version'] ?? $organisation_handler->readOne($org['id'], true)['data']['version']), ENT_QUOTES, 'UTF-8'); ?>">
                                     <input type="hidden" name="is_currently_active" value="<?php echo $org['is_active'] ? '1' : '0'; ?>">
                                     <button type="submit" name="action" value="toggle_active" class="btn btn-secondary btn-sm">
                                         <?php echo $org['is_active'] ? 'Deactivate' : 'Activate'; ?>
@@ -119,7 +119,7 @@ include_once $base_path . 'templates/header.php';
                                 </form>
                                 <form action="organisations.php" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to PERMANENTLY DELETE this organisation? This action cannot be undone.');">
                                     <?php echo csrf_input_field(); ?>
-                                    <input type="hidden" name="organisation_id" value="<?php echo $org['id']; ?>">
+                                    <input type="hidden" name="organisation_id" value="<?php echo htmlspecialchars((string)$org['id'], ENT_QUOTES, 'UTF-8'); ?>">
                                     <button type="submit" name="action" value="hard_delete" class="btn btn-danger btn-sm">Hard Delete</button>
                                 </form>
                             <?php endif; ?>

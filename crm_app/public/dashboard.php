@@ -1,79 +1,93 @@
 <?php
 // crm_app/public/dashboard.php
-$base_path = __DIR__ . '/../';
+$base_path = __DIR__ . '/../'; // Used for includes
 require_once $base_path . 'includes/auth_check.php'; // Ensures user is logged in, includes session_config.php
-require_once $base_path . 'includes/log_helper.php';
+require_once $base_path . 'includes/log_helper.php'; // For logging, if any specific to dashboard
 
-// At this point, $_SESSION['user_id'], $_SESSION['username'], etc., are available.
+// $page_title is used by header.php
+$page_title = "CRM Dashboard";
+
+// User details from session (already set by auth_check.php or login process)
 $username = htmlspecialchars($_SESSION['username']);
 $user_role = htmlspecialchars($_SESSION['role']);
 $is_admin = $_SESSION['is_admin'];
 
-log_message('INFO', "User '{$username}' accessed dashboard.", $_SESSION['user_id']);
+log_message('INFO', "User '{$username}' (ID: {$_SESSION['user_id']}) accessed dashboard.", $_SESSION['user_id']);
 
+// Include the common header
+include_once $base_path . 'templates/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CRM Dashboard</title>
-    <style>
-        body { font-family: sans-serif; margin: 0; background-color: #f4f4f4; color: #333; }
-        .navbar { background-color: #333; padding: 10px 20px; color: white; overflow: hidden; }
-        .navbar a { float: left; display: block; color: white; text-align: center; padding: 14px 16px; text-decoration: none; }
-        .navbar a:hover { background-color: #ddd; color: black; }
-        .navbar .logout { float: right; }
-        .container { padding: 20px; }
-        .welcome { font-size: 1.5em; margin-bottom: 20px; }
-        .role-info { background-color: #e9ecef; padding: 10px; border-radius: 4px; margin-bottom: 20px; }
-        .admin-notice { color: #dc3545; font-weight: bold; }
-        /* Basic structure for links, will be expanded by Stitch prompt */
-        nav ul { list-style-type: none; padding: 0; }
-        nav ul li { margin-bottom: 10px; }
-        nav ul li a { text-decoration: none; color: #007bff; }
-        nav ul li a:hover { text-decoration: underline; }
-    </style>
-</head>
-<body>
 
-<div class="navbar">
-    <a href="dashboard.php">Dashboard</a>
-    <a href="organisations.php">Organisations</a>
-    <a href="contacts.php">Contacts</a>
-    <a href="leads.php">Leads</a>
-    <a href="deals.php">Deals</a>
-    <a href="activities.php">Activities</a>
-    <?php if ($is_admin): ?>
-        <a href="admin_users.php">User Management</a> <!-- Placeholder for admin user management -->
-    <?php endif; ?>
-    <a href="logout.php" class="logout">Logout</a>
-</div>
+<!-- Page-specific content starts here -->
+<div class="container mt-4"> <!-- Bootstrap container class, mt-4 for spacing if needed -->
+    <div class="row">
+        <div class="col-12">
+            <div class="pagetitle mb-3">
+                <h1>Dashboard</h1>
+                <p class="lead">Welcome back, <?php echo $username; ?>!</p>
+            </div>
 
-<div class="container">
-    <p class="welcome">Welcome, <?php echo $username; ?>!</p>
-    <div class="role-info">
-        Your Role: <?php echo ucfirst($user_role); ?>
-        <?php if ($is_admin): ?>
-            <span class="admin-notice"> (Administrator)</span>
-        <?php endif; ?>
+            <div class="alert alert-info">
+                Your Role: <strong><?php echo ucfirst($user_role); ?></strong>
+                <?php if ($is_admin): ?>
+                    <span class="fw-bold text-danger"> (Administrator)</span>
+                <?php endif; ?>
+            </div>
+
+            <p>This is your CRM dashboard. From here you can manage your clients, leads, deals, and activities using the navigation bar above.</p>
+
+            <hr class="my-4">
+
+            <h3>Quick Summary (Placeholders)</h3>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-header">Active Leads</div>
+                        <div class="card-body">
+                            <h5 class="card-title">XX</h5> <!-- Placeholder for count -->
+                            <p class="card-text">View and manage your ongoing leads.</p>
+                            <a href="leads.php" class="btn btn-light btn-sm">Go to Leads</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-header">Open Deals</div>
+                        <div class="card-body">
+                            <h5 class="card-title">YY</h5> <!-- Placeholder for count -->
+                            <p class="card-text">Track your sales pipeline and close deals.</p>
+                            <a href="deals.php" class="btn btn-light btn-sm">Go to Deals</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card text-dark bg-warning mb-3">
+                        <div class="card-header">Pending Activities</div>
+                        <div class="card-body">
+                            <h5 class="card-title">ZZ</h5> <!-- Placeholder for count -->
+                            <p class="card-text">Manage your tasks, calls, and meetings.</p>
+                            <a href="activities.php?status_filter=Pending" class="btn btn-dark btn-sm">Go to Activities</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="mt-4">Quick Actions</h3>
+            <div class="list-group">
+                <a href="organisation_edit.php" class="list-group-item list-group-item-action">Add New Organisation</a>
+                <a href="contact_edit.php" class="list-group-item list-group-item-action">Add New Contact</a>
+                <a href="lead_edit.php" class="list-group-item list-group-item-action">Add New Lead</a>
+                <a href="deal_edit.php" class="list-group-item list-group-item-action">Add New Deal</a>
+                <a href="activity_edit.php" class="list-group-item list-group-item-action">Log New Activity</a>
+            </div>
+
+            <p class="mt-5 text-muted"><em>Further content and layout for the dashboard will be detailed in the Stitch prompt for the frontend. This provides a basic structure.</em></p>
+        </div>
     </div>
-
-    <p>This is your CRM dashboard. From here you can manage your clients, leads, and activities.</p>
-
-    <h3>Quick Actions (Placeholders)</h3>
-    <nav>
-        <ul>
-            <li><a href="organisation_edit.php">Add New Organisation</a></li>
-            <li><a href="contact_edit.php">Add New Contact</a></li>
-            <li><a href="lead_edit.php">Add New Lead</a></li>
-            <li><a href="deal_edit.php">Add New Deal</a></li>
-            <li><a href="activity_edit.php">Log New Activity</a></li>
-        </ul>
-    </nav>
-
-    <p><em>Further content and layout will be detailed in the Stitch prompt for the frontend.</em></p>
 </div>
+<!-- Page-specific content ends here -->
 
-</body>
-</html>
+<?php
+// Include the common footer
+include_once $base_path . 'templates/footer.php';
+?>

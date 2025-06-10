@@ -58,17 +58,17 @@ include_once $base_path . 'templates/header.php';
 <div class="container">
     <h1>Contacts</h1>
 
-    <?php if ($message): ?><div class="alert alert-success"><?php echo htmlspecialchars($message); ?></div><?php endif; ?>
-    <?php if ($error_message): ?><div class="alert alert-danger"><?php echo htmlspecialchars($error_message); ?></div><?php endif; ?>
+    <?php if ($message): ?><div class="alert alert-success"><?php echo htmlspecialchars($message, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
+    <?php if ($error_message): ?><div class="alert alert-danger"><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></div><?php endif; ?>
 
     <div class="row mb-3">
         <div class="col-md-6">
             <a href="contact_edit.php" class="btn btn-primary">Add New Contact</a>
             <?php if ($is_admin): ?>
                 <?php if ($show_all_for_admin): ?>
-                    <a href="contacts.php<?php echo $organisation_id_filter ? '?organisation_id_filter='.$organisation_id_filter.'&view=active' : '?view=active'; ?>" class="btn btn-info btn-sm">Show Active Only</a>
+                    <a href="contacts.php<?php echo $organisation_id_filter ? '?organisation_id_filter='.htmlspecialchars((string)$organisation_id_filter, ENT_QUOTES, 'UTF-8').'&view=active' : '?view=active'; ?>" class="btn btn-info btn-sm">Show Active Only</a>
                 <?php else: ?>
-                    <a href="contacts.php<?php echo $organisation_id_filter ? '?organisation_id_filter='.$organisation_id_filter.'&view=all' : '?view=all'; ?>" class="btn btn-info btn-sm">Show All (Active & Inactive)</a>
+                    <a href="contacts.php<?php echo $organisation_id_filter ? '?organisation_id_filter='.htmlspecialchars((string)$organisation_id_filter, ENT_QUOTES, 'UTF-8').'&view=all' : '?view=all'; ?>" class="btn btn-info btn-sm">Show All (Active & Inactive)</a>
                 <?php endif; ?>
             <?php endif; ?>
         </div>
@@ -78,14 +78,14 @@ include_once $base_path . 'templates/header.php';
                     <select name="organisation_id_filter" class="form-select">
                         <option value="">Filter by Organisation...</option>
                         <?php foreach ($organisations_for_filter as $org): ?>
-                            <option value="<?php echo $org['id']; ?>" <?php echo ($organisation_id_filter == $org['id']) ? 'selected' : ''; ?>>
-                                <?php echo htmlspecialchars($org['name']); ?>
+                            <option value="<?php echo htmlspecialchars((string)$org['id'], ENT_QUOTES, 'UTF-8'); ?>" <?php echo ($organisation_id_filter == $org['id']) ? 'selected' : ''; ?>>
+                                <?php echo htmlspecialchars($org['name'], ENT_QUOTES, 'UTF-8'); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <?php if (isset($_GET['view'])): // Preserve view setting if present ?>
-                    <input type="hidden" name="view" value="<?php echo htmlspecialchars($_GET['view']); ?>">
+                    <input type="hidden" name="view" value="<?php echo htmlspecialchars($_GET['view'], ENT_QUOTES, 'UTF-8'); ?>">
                 <?php endif; ?>
                 <div class="col-auto"><button type="submit" class="btn btn-outline-secondary">Filter</button></div>
                  <?php if ($organisation_id_filter || isset($_GET['view'])): ?>
@@ -110,31 +110,31 @@ include_once $base_path . 'templates/header.php';
             <tbody>
                 <?php foreach ($contacts as $contact): ?>
                     <tr>
-                        <td><a href="contact_view.php?id=<?php echo $contact['id']; ?>"><?php echo htmlspecialchars($contact['first_name'] . ' ' . $contact['last_name']); ?></a></td>
-                        <td><?php echo $contact['email'] ? '<a href="mailto:'.htmlspecialchars($contact['email']).'">'.htmlspecialchars($contact['email']).'</a>' : 'N/A'; ?></td>
-                        <td><?php echo htmlspecialchars($contact['phone_mobile'] ?? 'N/A'); ?></td>
+                        <td><a href="contact_view.php?id=<?php echo htmlspecialchars((string)$contact['id'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($contact['first_name'] . ' ' . $contact['last_name'], ENT_QUOTES, 'UTF-8'); ?></a></td>
+                        <td><?php echo $contact['email'] ? '<a href="mailto:'.htmlspecialchars($contact['email'], ENT_QUOTES, 'UTF-8').'">'.htmlspecialchars($contact['email'], ENT_QUOTES, 'UTF-8').'</a>' : 'N/A'; ?></td>
+                        <td><?php echo htmlspecialchars($contact['phone_mobile'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
                         <td>
                             <?php if ($contact['organisation_id'] && $contact['organisation_name']): ?>
-                                <a href="organisation_view.php?id=<?php echo $contact['organisation_id']; ?>"><?php echo htmlspecialchars($contact['organisation_name']); ?></a>
+                                <a href="organisation_view.php?id=<?php echo htmlspecialchars((string)$contact['organisation_id'], ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars($contact['organisation_name'], ENT_QUOTES, 'UTF-8'); ?></a>
                             <?php else: echo 'N/A'; endif; ?>
                         </td>
                         <td><?php echo $contact['is_active'] ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>'; ?></td>
                         <td>
-                            <a href="contact_view.php?id=<?php echo $contact['id']; ?>" class="btn btn-info btn-sm">View</a>
-                            <a href="contact_edit.php?id=<?php echo $contact['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="contact_view.php?id=<?php echo htmlspecialchars((string)$contact['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-info btn-sm">View</a>
+                            <a href="contact_edit.php?id=<?php echo htmlspecialchars((string)$contact['id'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-warning btn-sm">Edit</a>
                             <?php if ($is_admin): ?>
-                                <form action="contacts.php<?php echo ($organisation_id_filter || isset($_GET['view'])) ? '?'.http_build_query(array_filter(['organisation_id_filter' => $organisation_id_filter, 'view' => $_GET['view'] ?? null])) : ''; ?>" method="POST" style="display: inline;">
+                                <form action="contacts.php<?php echo ($organisation_id_filter || isset($_GET['view'])) ? '?'.htmlspecialchars(http_build_query(array_filter(['organisation_id_filter' => $organisation_id_filter, 'view' => $_GET['view'] ?? null])), ENT_QUOTES, 'UTF-8') : ''; ?>" method="POST" style="display: inline;">
                                     <?php echo csrf_input_field(); ?>
-                                    <input type="hidden" name="contact_id" value="<?php echo $contact['id']; ?>">
-                                    <input type="hidden" name="version" value="<?php echo $contact['version']; ?>">
+                                    <input type="hidden" name="contact_id" value="<?php echo htmlspecialchars((string)$contact['id'], ENT_QUOTES, 'UTF-8'); ?>">
+                                    <input type="hidden" name="version" value="<?php echo htmlspecialchars((string)$contact['version'], ENT_QUOTES, 'UTF-8'); ?>">
                                     <input type="hidden" name="is_currently_active" value="<?php echo $contact['is_active'] ? '1' : '0'; ?>">
                                     <button type="submit" name="action" value="toggle_active" class="btn btn-secondary btn-sm">
                                         <?php echo $contact['is_active'] ? 'Deactivate' : 'Activate'; ?>
                                     </button>
                                 </form>
-                                <form action="contacts.php<?php echo ($organisation_id_filter || isset($_GET['view'])) ? '?'.http_build_query(array_filter(['organisation_id_filter' => $organisation_id_filter, 'view' => $_GET['view'] ?? null])) : ''; ?>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to PERMANENTLY DELETE this contact? This action cannot be undone.');">
+                                <form action="contacts.php<?php echo ($organisation_id_filter || isset($_GET['view'])) ? '?'.htmlspecialchars(http_build_query(array_filter(['organisation_id_filter' => $organisation_id_filter, 'view' => $_GET['view'] ?? null])), ENT_QUOTES, 'UTF-8') : ''; ?>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to PERMANENTLY DELETE this contact? This action cannot be undone.');">
                                     <?php echo csrf_input_field(); ?>
-                                    <input type="hidden" name="contact_id" value="<?php echo $contact['id']; ?>">
+                                    <input type="hidden" name="contact_id" value="<?php echo htmlspecialchars((string)$contact['id'], ENT_QUOTES, 'UTF-8'); ?>">
                                     <button type="submit" name="action" value="hard_delete" class="btn btn-danger btn-sm">Hard Delete</button>
                                 </form>
                             <?php endif; ?>

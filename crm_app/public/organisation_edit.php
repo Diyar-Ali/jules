@@ -109,66 +109,66 @@ $csrf_token = generate_csrf_token();
 include_once $base_path . 'templates/header.php';
 ?>
 <div class="container">
-    <h1><?php echo $page_title; ?></h1>
+    <h1><?php echo htmlspecialchars($page_title, ENT_QUOTES, 'UTF-8'); ?></h1>
 
     <?php if ($error_message): ?>
-        <div class="alert alert-danger"><?php echo htmlspecialchars($error_message); ?></div>
+        <div class="alert alert-danger"><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></div>
     <?php endif; ?>
 
-    <form action="organisation_edit.php<?php echo $edit_mode ? '?id='.$org_data['id'] : ''; ?>" method="POST">
+    <form action="organisation_edit.php<?php echo $edit_mode ? '?id='.htmlspecialchars((string)$org_data['id'], ENT_QUOTES, 'UTF-8') : ''; ?>" method="POST">
         <?php echo csrf_input_field(); ?>
         <?php if ($edit_mode): ?>
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($org_data['id']); ?>">
-            <input type="hidden" name="version" value="<?php echo htmlspecialchars($org_data['version']); ?>">
+            <input type="hidden" name="id" value="<?php echo htmlspecialchars((string)$org_data['id'], ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="version" value="<?php echo htmlspecialchars((string)$org_data['version'], ENT_QUOTES, 'UTF-8'); ?>">
         <?php endif; ?>
 
         <div class="mb-3">
             <label for="name" class="form-label">Organisation Name <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($org_data['name']); ?>" required>
+            <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($org_data['name'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" required>
         </div>
         <div class="mb-3">
             <label for="website" class="form-label">Website</label>
-            <input type="url" class="form-control" id="website" name="website" value="<?php echo htmlspecialchars($org_data['website']); ?>" placeholder="https://example.com">
+            <input type="url" class="form-control" id="website" name="website" value="<?php echo htmlspecialchars($org_data['website'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="https://example.com">
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>
-            <input type="tel" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($org_data['phone']); ?>">
+            <input type="tel" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($org_data['phone'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
         </div>
         <div class="row">
             <div class="col-md-6 mb-3">
                 <label for="address_street" class="form-label">Street Address</label>
-                <input type="text" class="form-control" id="address_street" name="address_street" value="<?php echo htmlspecialchars($org_data['address_street']); ?>">
+                <input type="text" class="form-control" id="address_street" name="address_street" value="<?php echo htmlspecialchars($org_data['address_street'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
             </div>
             <div class="col-md-6 mb-3">
                 <label for="address_city" class="form-label">City</label>
-                <input type="text" class="form-control" id="address_city" name="address_city" value="<?php echo htmlspecialchars($org_data['address_city']); ?>">
+                <input type="text" class="form-control" id="address_city" name="address_city" value="<?php echo htmlspecialchars($org_data['address_city'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
             </div>
         </div>
         <div class="row">
             <div class="col-md-4 mb-3">
                 <label for="address_state" class="form-label">State/Province</label>
-                <input type="text" class="form-control" id="address_state" name="address_state" value="<?php echo htmlspecialchars($org_data['address_state']); ?>">
+                <input type="text" class="form-control" id="address_state" name="address_state" value="<?php echo htmlspecialchars($org_data['address_state'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
             </div>
             <div class="col-md-4 mb-3">
                 <label for="address_zip" class="form-label">ZIP/Postal Code</label>
-                <input type="text" class="form-control" id="address_zip" name="address_zip" value="<?php echo htmlspecialchars($org_data['address_zip']); ?>">
+                <input type="text" class="form-control" id="address_zip" name="address_zip" value="<?php echo htmlspecialchars($org_data['address_zip'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
             </div>
             <div class="col-md-4 mb-3">
                 <label for="address_country" class="form-label">Country</label>
-                <input type="text" class="form-control" id="address_country" name="address_country" value="<?php echo htmlspecialchars($org_data['address_country']); ?>">
+                <input type="text" class="form-control" id="address_country" name="address_country" value="<?php echo htmlspecialchars($org_data['address_country'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
             </div>
         </div>
         <div class="mb-3">
             <label for="industry" class="form-label">Industry</label>
-            <input type="text" class="form-control" id="industry" name="industry" value="<?php echo htmlspecialchars($org_data['industry']); ?>">
+            <input type="text" class="form-control" id="industry" name="industry" value="<?php echo htmlspecialchars($org_data['industry'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
         </div>
         <div class="mb-3">
             <label for="annual_revenue" class="form-label">Annual Revenue</label>
-            <input type="number" step="0.01" class="form-control" id="annual_revenue" name="annual_revenue" value="<?php echo htmlspecialchars($org_data['annual_revenue']); ?>">
+            <input type="number" step="0.01" class="form-control" id="annual_revenue" name="annual_revenue" value="<?php echo htmlspecialchars($org_data['annual_revenue'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="3"><?php echo htmlspecialchars($org_data['description']); ?></textarea>
+            <textarea class="form-control" id="description" name="description" rows="3"><?php echo htmlspecialchars($org_data['description'] ?? '', ENT_QUOTES, 'UTF-8'); ?></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary"><?php echo $edit_mode ? 'Update' : 'Create'; ?> Organisation</button>
