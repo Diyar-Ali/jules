@@ -179,5 +179,103 @@ class ActivityTest extends UnitTestCase {
         $this->assertFalse(file_exists($file_to_delete_path_on_server), "Physical file should be deleted after activity hard delete.");
         @unlink($tmp_file_del); // Clean up original tmp file if it wasn't moved (it should have been)
     }
+
+    function testReadAllActivitiesWithFilters() {
+        // Setup: Create a diverse set of activities
+        $user1 = $this->test_user_id; // Admin user (ID 1)
+
+        $user2_obj = new User($this->pdo);
+        $user2_obj->username = 'activityuser2'; $user2_obj->setPassword('pass'); $user2_obj->email = 'actuser2@example.com';
+        $user2_obj->role = 'viewer'; // A valid role
+        $this->assertTrue($user2_obj->create(), "Failed to create user2 for activity tests");
+        $user2 = $user2_obj->id;
+
+        $lead2_obj = new Lead($this->pdo);
+        $lead2_obj->name = "Second Lead for Activity Filter";
+        // $lead2_obj->organisation_id = $this->test_org_id; // Assuming test_org_id is set up if Lead requires it
+        $this->assertTrue($lead2_obj->create($user1), "Failed to create lead2 for activity tests");
+        $lead2_id = $lead2_obj->id;
+
+        $activities_to_create = [
+            // Activity 1: Task, Pending, User1, Lead1 (this->test_lead_id), Due Tomorrow, Active
+            ['subject' => 'A1 - Task Pending U1 L1 DueTmrw', 'type' => 'Task', 'status' => 'Pending', 'assigned_to_user_id' => $user1, 'related_to_type' => 'Lead', 'related_to_id' => $this->test_lead_id, 'due_date' => date('Y-m-d H:i:s', strtotime('+1 day')), 'is_active' => true],
+            // Activity 2: Call, Completed, User2, Lead2, Due Yesterday, Active
+            ['subject' => 'A2 - Call Completed U2 L2 DueYstd', 'type' => 'Call', 'status' => 'Completed', 'assigned_to_user_id' => $user2, 'related_to_type' => 'Lead', 'related_to_id' => $lead2_id, 'due_date' => date('Y-m-d H:i:s', strtotime('-1 day')), 'is_active' => true],
+            // Activity 3: Meeting, Pending, User1, Lead1 (this->test_lead_id), Due Next Week, Inactive (Admin only view)
+            ['subject' => 'A3 - Meeting Pending U1 L1 DueNxtWk Inactive', 'type' => 'Meeting', 'status' => 'Pending', 'assigned_to_user_id' => $user1, 'related_to_type' => 'Lead', 'related_to_id' => $this->test_lead_id, 'due_date' => date('Y-m-d H:i:s', strtotime('+7 day')), 'is_active' => false],
+            // Activity 4: Email, Cancelled, User2, Lead2, No Due Date, Active
+            ['subject' => 'A4 - Email Cancelled U2 L2 NoDue', 'type' => 'Email', 'status' => 'Cancelled', 'assigned_to_user_id' => $user2, 'related_to_type' => 'Lead', 'related_to_id' => $lead2_id, 'due_date' => null, 'is_active' => true],
+        ];
+
+        $created_activity_ids = [];
+        foreach ($activities_to_create as $act_data) {
+            $activity = new Activity($this->pdo);
+            foreach ($act_data as $key => $value) {
+                $activity->$key = $value;
+            }
+            $this->assertTrue($activity->create($user1), "Failed to create activity: {$act_data['subject']}");
+            $created_activity_ids[] = $activity->id;
+        }
+
+        // Test Scenarios
+        // 1. Default view (non-admin, should see active - 3 activities: A1, A2, A4)
+        $_SESSION['is_admin'] = false;
+        $results = Activity::readAll($this->pdo);
+        $this->assertEqual(count($results), 3, "Default non-admin view failed. Expected 3, got " . count($results) . $this->getSubjects($results));
+        foreach($results as $r) { $this->assertTrue($r->is_active); }
+
+        // 2. Admin view all (should see 4 activities)
+        $_SESSION['is_admin'] = true;
+        $results = Activity::readAll($this->pdo, ['view' => 'all']);
+        $this->assertEqual(count($results), 4, "Admin view='all' failed. Expected 4, got " . count($results) . $this->getSubjects($results));
+
+        // 3. Filter by type 'Task' (Admin view all context)
+        $results = Activity::readAll($this->pdo, ['type' => 'Task', 'view' => 'all']);
+        $this->assertEqual(count($results), 1, "Filter by type 'Task' failed." . $this->getSubjects($results));
+        if(count($results)==1) $this->assertEqual($results[0]->subject, 'A1 - Task Pending U1 L1 DueTmrw');
+
+        // 4. Filter by status 'Completed' (Admin view all context)
+        $results = Activity::readAll($this->pdo, ['status' => 'Completed', 'view' => 'all']);
+        $this->assertEqual(count($results), 1, "Filter by status 'Completed' failed." . $this->getSubjects($results));
+        if(count($results)==1) $this->assertEqual($results[0]->subject, 'A2 - Call Completed U2 L2 DueYstd');
+
+        // 5. Filter by assigned_to_user_id = $user2 (Admin view all context)
+        $results = Activity::readAll($this->pdo, ['assigned_to_user_id' => $user2, 'view' => 'all']);
+        $this->assertEqual(count($results), 2, "Filter by assigned_to_user_id {$user2} failed. Expected 2, got " . count($results) . $this->getSubjects($results));
+
+        // 6. Filter by related_to_type 'Lead' and related_to_id $this->test_lead_id (Admin view all)
+        $results = Activity::readAll($this->pdo, ['related_to_type' => 'Lead', 'related_to_id' => $this->test_lead_id, 'view' => 'all']);
+        $this->assertEqual(count($results), 2, "Filter by related entity (Lead ID {$this->test_lead_id}) failed. Expected 2, got " . count($results) . $this->getSubjects($results));
+
+        // 7. Filter by due_date (Admin view all, active only for relevance of due date)
+        $_SESSION['is_admin'] = true; // Ensure admin for 'view' => 'all' or explicit is_active
+        $tomorrow_date_only = date('Y-m-d', strtotime('+1 day'));
+        // Activity::readAll uses DATE(a.due_date) >= :due_date_from and DATE(a.due_date) <= :due_date_to
+        // So, to get activities for a specific day, set start and end to that day.
+        $results = Activity::readAll($this->pdo, ['due_date_from' => $tomorrow_date_only, 'due_date_to' => $tomorrow_date_only, 'is_active' => true]);
+        $this->assertEqual(count($results), 1, "Filter by due_date (tomorrow, active only) failed. Expected 1, got " . count($results) . ". Date: {$tomorrow_date_only}" . $this->getSubjects($results));
+        if(count($results) == 1) $this->assertEqual($results[0]->subject, 'A1 - Task Pending U1 L1 DueTmrw');
+
+        // 8. Admin view: inactive only (A3)
+        $_SESSION['is_admin'] = true;
+        $results = Activity::readAll($this->pdo, ['is_active' => false]); // 'view' => 'all' is implied if is_active is set by admin
+        $this->assertEqual(count($results), 1, "Admin view inactive only failed." . $this->getSubjects($results));
+        if(count($results) == 1) $this->assertEqual($results[0]->subject, 'A3 - Meeting Pending U1 L1 DueNxtWk Inactive');
+
+        // 9. Search term (Admin view all)
+        $results = Activity::readAll($this->pdo, ['search_term' => 'Cancelled', 'view' => 'all']);
+        $this->assertEqual(count($results), 1, "Search term 'Cancelled' failed." . $this->getSubjects($results));
+        if(count($results) == 1) $this->assertEqual($results[0]->subject, 'A4 - Email Cancelled U2 L2 NoDue');
+    }
+
+    // Helper to get subjects for debugging
+    private function getSubjects($activities) {
+        if (empty($activities)) return " (No activities found)";
+        $subjects = [];
+        foreach ($activities as $act) {
+            $subjects[] = $act->subject;
+        }
+        return " (Found: " . implode(", ", $subjects) . ")";
+    }
 }
 ?>
