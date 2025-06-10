@@ -1,0 +1,17 @@
+{
+    "name": "connect/crm",
+    "description": "A simple CRM application.",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "vlucas/phpdotenv": "^5.0",
+        "phpmailer/phpmailer": "^6.5"
+    },
+    "authors": [
+        {
+            "name": "Jules AI",
+            "email": "jules@example.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,16 @@
+# Prevent script execution
+<FilesMatch "\.(php|phtml|php3|php4|php5|php7|phps|cgi|pl|asp|aspx|sh|rb)$">
+    Require all denied
+</FilesMatch>
+
+# Allow access to common image, document, and archive types
+# Add or remove extensions as needed for your application
+<FilesMatch "\.(jpg|jpeg|png|gif|bmp|ico|svg|pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv|zip|rar|gz|tar|mp3|mp4|webm|ogg)$">
+    Require all granted
+</FilesMatch>
+
+# Deny access to all other file types by default
+# This is a fallback; the FilesMatch above should cover most legitimate cases.
+# If you have specific needs for other file types, add them to the Allow list.
+# Order Allow,Deny
+# Deny from all
